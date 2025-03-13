@@ -29,7 +29,7 @@ transform = transforms.Compose([
 ])
 
 # Define anomaly threshold
-ANOMALY_THRESHOLD = 0.6840  # Adjust this value based on your model's typical scores
+ANOMALY_THRESHOLD = 0.6840  # Check metrics.txt file in result
 
 # Video input and output paths
 video_path = r'C:\Users\kisho\OneDrive\Desktop\crowd_surveillence_anamoly_detection\object_detection_video.mp4'
