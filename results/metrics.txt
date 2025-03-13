@@ -1,0 +1,5 @@
+ROC_AUC: 1.0000
+PR_AUC: 1.0000
+Threshold: 0.6710
+Mean_Score: 0.3763
+Std_Score: 0.1632
