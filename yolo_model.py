@@ -4,6 +4,7 @@ import torch
 from ultralytics import YOLO
 from model import CrowdAnomalyAutoencoder
 import torchvision.transforms as transforms
+import numpy as np
 
 # Function to assign unique IDs to detected people (basic DeepSort code)
 def assign_unique_ids(detections):
@@ -27,6 +28,9 @@ transform = transforms.Compose([
     transforms.ToTensor(),
 ])
 
+# Define anomaly threshold
+ANOMALY_THRESHOLD = 0.6840  # Adjust this value based on your model's typical scores
+
 # Video input and output paths
 video_path = r'C:\Users\kisho\OneDrive\Desktop\crowd_surveillence_anamoly_detection\object_detection_video.mp4'
 output_path = r'C:\Users\kisho\OneDrive\Desktop\crowd_surveillence_anamoly_detection\output_tracked_v8.mp4'
@@ -47,6 +51,10 @@ out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
 
 # Prepare log file
 log_file = open('detection_log.txt', 'w')
+
+# Initialize variables for anomaly score smoothing
+anomaly_scores = []
+SMOOTHING_WINDOW = 5
 
 while True:
     ret, frame = cap.read()
@@ -73,7 +81,13 @@ while True:
     frame_tensor = transform(frame_rgb).unsqueeze(0)
     frame_tensor = frame_tensor.to('cuda' if torch.cuda.is_available() else 'cpu')
     reconstructed = model_autoencoder(frame_tensor)
-    anomaly_score = torch.mean((frame_tensor - reconstructed) ** 2).item()
+    current_anomaly_score = torch.mean((frame_tensor - reconstructed) ** 2).item()
+    
+    # Smooth anomaly score using moving average
+    anomaly_scores.append(current_anomaly_score)
+    if len(anomaly_scores) > SMOOTHING_WINDOW:
+        anomaly_scores.pop(0)
+    anomaly_score = np.mean(anomaly_scores)
 
     # Log results
     log_file.write(f"Frame: {cap.get(cv2.CAP_PROP_POS_FRAMES)}, Anomaly Score: {anomaly_score:.4f}, People Count: {len(tracked_people)}\n")
@@ -85,6 +99,17 @@ while True:
 
     cv2.putText(frame, f"People Count: {len(tracked_people)}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
     cv2.putText(frame, f"Anomaly Score: {anomaly_score:.4f}", (10, 60), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+
+    # Add anomaly alert if score exceeds threshold
+    if anomaly_score > ANOMALY_THRESHOLD:
+        # Create semi-transparent overlay for the alert
+        overlay = frame.copy()
+        cv2.rectangle(overlay, (0, frame_height-100), (frame_width, frame_height), (0, 0, 255), -1)
+        cv2.addWeighted(overlay, 0.5, frame, 0.5, 0, frame)
+        
+        # Add alert text
+        cv2.putText(frame, "ANOMALY DETECTED!", (frame_width//2 - 200, frame_height-40),
+                    cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 3)
 
     out.write(frame)
 
