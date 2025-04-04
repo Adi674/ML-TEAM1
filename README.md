@@ -65,7 +65,7 @@ The system will process your video file (default: `Crowd-Activity-All.avi`) and 
 - Red boxes for detected weapons  
 - "Anomaly Detected" alert for unusual crowd behavior  
 - Live heatmap for density distribution  
-
+To view the output video click this link and select anomaly_and_heatmap video https://drive.google.com/drive/folders/1THZPL--L9kkjRPqmPbmZpYuM2gWYMzN_
 ## Dependencies
 
 - opencv-python  
