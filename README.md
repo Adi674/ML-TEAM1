@@ -51,10 +51,3 @@ python crowd_surveillance.py
 
 The system uses the UMN CLAHE dataset for training and testing.
 
-
-bdat oozk cpto ebeu
-
-adminvv123
-
-
-njun yads fimg kisp
