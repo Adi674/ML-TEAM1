@@ -46,6 +46,7 @@ python crowd_surveillance.py
   - Weapon detection alerts
   - Anomaly detection warnings
   - Crowd density heatmap
+You can also view the output video with this drive link https://drive.google.com/drive/folders/1THZPL--L9kkjRPqmPbmZpYuM2gWYMzN_
 
 ## Dataset
 
