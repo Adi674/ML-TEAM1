@@ -109,7 +109,19 @@ pip install opencv-python torch torchvision ultralytics numpy scipy tqdm
 ## Notes
 
 - Make sure you have `weapon_model_save.pt` in your working directory  
-- You can fine-tune the anomaly threshold (`self.threshold`) in `AnomalyDetector` based on your dataset for better performance  
+- You can fine-tune the anomaly threshold (`self.threshold`) in `AnomalyDetector` based on your dataset for better performance
+
+## Model Evaluation matrix 
+Accuracy, Precision, Recall, F1-score , Thrshold
+- https://github.com/Adi674/ML-TEAM1/blob/main/Results/metrics.txt
+
+## Anomaly Score Distribution
+distribution of anomaly
+https://github.com/Adi674/ML-TEAM1/blob/main/Results/score_distribution.png
+
+## Lead by 
+- Aditya Kumar srivastav
+- Sanika Aher
 
 ## Team Members
 
@@ -120,3 +132,10 @@ pip install opencv-python torch torchvision ultralytics numpy scipy tqdm
 - Santhosh S
 - Dhanya Shetty
 - Saritha Chowdhary
+- 
+
+## License
+- This project is open-source under the MIT License.
+- Feel free to contribute by submitting issues or pull requests!
+
+
